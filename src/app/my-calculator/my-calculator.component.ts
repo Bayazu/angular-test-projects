@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 interface CalcGroup {
   first: CalcVar;
@@ -8,27 +8,27 @@ interface CalcGroup {
 
 interface CalcVar {
   value: number;
-  modificator: CalcModifiers
+  modificator: CalcModifiers;
 }
 
 enum CalcOperations {
   PLUS = '+',
   MINUS = '-',
   MULTIPLY = '*',
-  DIVIDE = '/'
+  DIVIDE = '/',
 }
 
 enum CalcModifiers {
   SIN = 'SIN',
   COS = 'COS',
   SQUARE = 'SQUARE',
-  NONE = 'NONE'
+  NONE = 'NONE',
 }
 
 @Component({
   selector: 'my-calculator',
   templateUrl: './my-calculator.component.html',
-  styleUrl: './my-calculator.component.scss'
+  styleUrl: './my-calculator.component.scss',
 })
 export class MyCalculatorComponent {
   public calcOperations = CalcOperations;
@@ -37,17 +37,17 @@ export class MyCalculatorComponent {
     {
       first: {
         value: 5,
-        modificator: CalcModifiers.NONE
+        modificator: CalcModifiers.NONE,
       },
       second: {
         value: 10,
         modificator: CalcModifiers.NONE,
       },
-      operation: CalcOperations.PLUS
-    }
-  ]
+      operation: CalcOperations.PLUS,
+    },
+  ];
 
-  public history: string[] = []
+  public history: string[] = [];
 
   public operationsBetweenGroups: CalcOperations[] = [];
 
@@ -57,18 +57,18 @@ export class MyCalculatorComponent {
     this.calcGroups.push({
       first: {
         value: 0,
-        modificator: CalcModifiers.NONE
+        modificator: CalcModifiers.NONE,
       },
       second: {
         value: 0,
-        modificator: CalcModifiers.NONE
+        modificator: CalcModifiers.NONE,
       },
-      operation: CalcOperations.PLUS
-    })
+      operation: CalcOperations.PLUS,
+    });
   }
 
   public removeGroup(index: number): void {
-    this.calcGroups.splice(index, 1)
+    this.calcGroups.splice(index, 1);
   }
 
   // public first: number = 1;
