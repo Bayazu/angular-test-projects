@@ -65,36 +65,76 @@ export class MyCalculatorComponent {
       },
       operation: CalcOperations.PLUS,
     });
+
+    this.operationsBetweenGroups.push(CalcOperations.PLUS);
   }
 
   public removeGroup(index: number): void {
     this.calcGroups.splice(index, 1);
   }
 
-  // public first: number = 1;
-  // public second: number = 1
-  //
-  // public operation: string = '+'
-  //
-  // public operations: string[] = ['+', '-', '*', '/']
-  //
-  // public result?: number = undefined
-  // public calc(){
-  //   console.log(this.result)
-  //   console.log(this.operation);
-  //
-  //   switch (this.operation){
-  //     case '+':
-  //       this.result = this.first + this.second
-  //       break
-  //     case '-':
-  //       this.result = this.first - this.second
-  //       break
-  //     case '*':
-  //       this.result = this.first * this.second
-  //       break
-  //     case '/':
-  //       this.result = this.first / this.second
-  //   }
-  // }
+  public calcGroup() {
+    let result = 0;
+
+    let tempHistory: string[] = [];
+
+    this.calcGroups.forEach((group, i) => {
+      if (i === 0) {
+        result = this.calc(
+          this.calcValueWithModif(group.first),
+          this.calcValueWithModif(group.second),
+          group.operation
+        );
+      } else {
+        let tempResult = this.calc(
+          this.calcValueWithModif(group.first),
+          this.calcValueWithModif(group.second),
+          group.operation
+        );
+        result = this.calc(result, tempResult, this.operationsBetweenGroups[i - 1]);
+      }
+      tempHistory.push(
+        `
+        (
+          ${group.first.modificator !== CalcModifiers.NONE ? group.first.modificator : ''} ${group.first.value}
+          ${group.operation}
+          ${group.second.modificator !== CalcModifiers.NONE ? group.second.modificator : ''} ${group.second.value}
+          )
+        `
+      );
+
+      console.log(tempHistory);
+    });
+
+    tempHistory.push(`= ${result}`);
+    this.history.push(tempHistory.join(' '));
+
+    this.result = result;
+  }
+
+  public calcValueWithModif(value: CalcVar): number {
+    switch (value.modificator) {
+      case CalcModifiers.NONE:
+        return value.value;
+      case CalcModifiers.COS:
+        return Math.cos(value.value);
+      case CalcModifiers.SIN:
+        return Math.sin(value.value);
+      case CalcModifiers.SQUARE:
+        return Math.sqrt(value.value);
+    }
+  }
+
+  public calc(first: number, second: number, operation: CalcOperations): number {
+    switch (operation) {
+      case CalcOperations.PLUS:
+        return first + second;
+      case CalcOperations.MINUS:
+        return first - second;
+      case CalcOperations.MULTIPLY:
+        return first * second;
+      case CalcOperations.DIVIDE:
+        return first / second;
+    }
+  }
 }
