@@ -102,8 +102,6 @@ export class MyCalculatorComponent {
           )
         `
       );
-
-      console.log(tempHistory);
     });
 
     tempHistory.push(`= ${result}`);
